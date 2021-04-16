@@ -22,26 +22,27 @@ async def on_message(message):
     if message.content == "call stop":
         sys.exit()
 
-    if re.fullmatch('call\skick\s([0-9][0-9][0-9]|(now))', message.content) != None:
+    if re.fullmatch('call\skick\s(n|([sm]\s[0-9][0-9][0-9]))', message.content) != None:
         print("is match")
         talk_channel_id = 795982514664767522
         channel = client.get_channel(talk_channel_id)
-        #ToDo パラメータ解析-文字列の加工
-        s = message.content[10:13]
-        #ToDo 解析結果をもとに時間調整-一定時間後に先に進む
-        if s == "now":
-            i = 0
-        else:
-            i = int(s)
-
-        sleep_time = i * 60
-        print("sleep ", i, " sec")
-        sleep(sleep_time)
+        # パラメータ解析-文字列の加工
+        o = message.content[10]
+        if o != 'n':
+            if o == 's':
+                u = 1
+            elif o == 'm':
+                u = 60
+            t = int(message.content[12:15])
+            sleep_time = t * u
+            print("sleep ", sleep_time)
+            sleep(sleep_time)
 
         for ch in channel.guild.voice_channels:
             for member in ch.members:
                 if member.id == message.author.id:
                     await member.move_to(None)
+                    pritn("kick")
 
 client.run(TOKEN)
 
