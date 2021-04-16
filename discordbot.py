@@ -26,7 +26,6 @@ async def on_message(message):
         print("is match")
         talk_channel_id = 795982514664767522
         channel = client.get_channel(talk_channel_id)
-        # パラメータ解析-文字列の加工
         o = message.content[10]
         if o != 'n':
             if o == 's':
